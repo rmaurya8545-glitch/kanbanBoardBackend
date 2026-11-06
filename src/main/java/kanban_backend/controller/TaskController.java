@@ -15,13 +15,16 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping
-    public List<Task> getAllTasks(@RequestParam(required = false) Long userId){
-        if(userId != null){
-            return taskService.getTasksByUserId(userId);
-        }
-        return taskService.getAllTasks();
-    }
+//    @GetMapping
+//    public List<Task> getAllTasks(@RequestParam(required = false) Long userId){
+//        if(userId != null){
+//            return taskService.getTasksByUserId(userId);
+//        }
+//        return taskService.getAllTasks();
+     @GetMapping
+     public List<Task> getTasks(@RequestParam Long userId) {
+     return taskService.getTasksByUserId(userId);
+}
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
@@ -29,12 +32,12 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskService.updateTask(id, task);
+    public Task updateTask(@PathVariable Long id, @RequestParam Long userId, @RequestBody Task task) {
+        return taskService.updateTask(id, userId, task);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public void deleteTask(@PathVariable Long id, @RequestParam Long userId) {
+        taskService.deleteTask(id, userId);
     }
 }
